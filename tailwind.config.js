@@ -4,7 +4,10 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   variants: {
-    extend: {},
+    extend: {
+      opacity: ["disabled"],
+      cursor: ["disabled"],
+    },
   },
   theme: {
     extend: {
