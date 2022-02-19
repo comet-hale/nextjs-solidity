@@ -1,31 +1,20 @@
 import { CourseCard, CourseList } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { getAllCourses } from "@content/courses/fetcher";
-import { EthRates, WalletBar } from "@components/ui/web3";
-import { useAccount, useNetwork, useWalletInfo } from "@components/hooks/web3";
+import { useWalletInfo } from "@components/hooks/web3";
 import { Button } from "@components/ui/common";
 import { OrderModal } from "@components/ui/order";
 import { useState } from "react";
-import { useEthPrice } from "@components/hooks/useEthPrice";
+import { MarketHeader } from "@components/ui/marketplace";
 export default function Marketplace({ courses }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const { eth } = useEthPrice();
-  const { account, network, canPurchaseCourse } = useWalletInfo();
+  const { canPurchaseCourse } = useWalletInfo();
 
   return (
     <>
       <div className="py-4">
-        <WalletBar
-          address={account.data}
-          network={{
-            data: network.data,
-            target: network.target,
-            isSupported: network.isSupported,
-            hasInitialResponse: network.hasInitialResponse,
-          }}
-        />
+        <MarketHeader />
       </div>
-      <EthRates eth={eth} />
       <CourseList courses={courses}>
         {(course) => (
           <CourseCard
