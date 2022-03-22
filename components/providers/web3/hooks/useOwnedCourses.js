@@ -1,8 +1,9 @@
+import { normalizeOwnedCourse } from "@utils/normalize";
 import useSWR from "swr";
 
 export const handler = (web3, contract) => (courses, account) => {
   const swrRes = useSWR(
-    () => (web3 && contract && account ? "web3/ownedCourses" : null),
+    () => (web3 && contract && account ? `web3/ownedCourses/${account}` : null),
     async () => {
       const ownedCourses = [];
       for (let i = 0; i < courses.length; i++) {
@@ -13,7 +14,7 @@ export const handler = (web3, contract) => (courses, account) => {
         }
 
         const hexCourseId = web3.utils.utf8ToHex(course.id);
-        const courseHash = web3.utils.soliditySha(
+        const courseHash = web3.utils.soliditySha3(
           { type: "bytes16", value: hexCourseId },
           { type: "address", value: account }
         );
@@ -22,9 +23,10 @@ export const handler = (web3, contract) => (courses, account) => {
           .getCourseByHash(courseHash)
           .call();
         if (
-          ownedCourse.owner !== "0x000000000000000000000000000000000000000000"
+          ownedCourse.owner !== "0x0000000000000000000000000000000000000000"
         ) {
-          ownedCourses.push(ownedCourse);
+          const normalized = normalizeOwnedCourse(web3)(course, ownedCourse);
+          ownedCourses.push(normalized);
         }
       }
 
