@@ -7,13 +7,6 @@ const enhanceHook = (swrRes) => {
   };
 };
 
-export const useAccount = () => {
-  const swrRes = enhanceHook(useHooks((hooks) => hooks.useAccount)());
-  return {
-    account: swrRes,
-  };
-};
-
 export const useNetwork = () => {
   const swrRes = enhanceHook(useHooks((hooks) => hooks.useNetwork)());
   return {
@@ -21,15 +14,20 @@ export const useNetwork = () => {
   };
 };
 
-export const useWalletInfo = () => {
-  const { network } = useNetwork();
-  const { account } = useAccount();
+export const useAccount = () => {
+  const swrRes = enhanceHook(useHooks((hooks) => hooks.useAccount)());
+  return {
+    account: swrRes,
+  };
+};
 
-  const canPurchaseCourse = !!(account.data && network.isSupported);
+export const useWalletInfo = () => {
+  const { account } = useAccount();
+  const { network } = useNetwork();
 
   return {
-    network,
     account,
-    canPurchaseCourse,
+    network,
+    canPurchaseCourse: !!(account.data && network.isSupported),
   };
 };
