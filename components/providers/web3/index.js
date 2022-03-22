@@ -1,10 +1,4 @@
-const {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-} = require("react");
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 import detectEthereumProvider from "@metamask/detect-provider";
 import { loadContract } from "@utils/loadContract";
@@ -27,7 +21,8 @@ export default function Web3Provider({ children }) {
       const provider = await detectEthereumProvider();
       if (provider) {
         const web3 = new Web3(provider);
-        const contract = loadContract("CourseMarketplace");
+        const contract = await loadContract("CourseMarketplace", provider);
+        console.log(contract);
         setWeb3Api({
           provider,
           web3,
@@ -40,17 +35,19 @@ export default function Web3Provider({ children }) {
         console.error("Please, install Metamask.");
       }
     };
+
     loadProvider();
   }, []);
 
   const _web3Api = useMemo(() => {
+    const { web3, provider, isLoading } = web3Api;
     return {
       ...web3Api,
-      requireInstall: !web3Api.isLoading && !web3Api.web3,
-      connect: web3Api.provider
+      requireInstall: !isLoading && !web3,
+      connect: provider
         ? async () => {
             try {
-              await web3Api.provider.request({ method: "eth_requestAccounts" });
+              await provider.request({ method: "eth_requestAccounts" });
             } catch {
               location.reload();
             }

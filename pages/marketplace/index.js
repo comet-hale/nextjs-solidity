@@ -6,6 +6,7 @@ import { Button } from "@components/ui/common";
 import { OrderModal } from "@components/ui/order";
 import { useState } from "react";
 import { MarketHeader } from "@components/ui/marketplace";
+
 export default function Marketplace({ courses }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const { canPurchaseCourse } = useWalletInfo();
@@ -29,8 +30,8 @@ export default function Marketplace({ courses }) {
               <div className="mt-4">
                 <Button
                   onClick={() => setSelectedCourse(course)}
-                  variant="lightPurple"
                   disabled={!canPurchaseCourse}
+                  variant="lightPurple"
                 >
                   Purchase
                 </Button>
