@@ -55,7 +55,7 @@ export default function Marketplace({ courses }) {
               Footer={() => {
                 if (requireInstall) {
                   return (
-                    <Button disabled={true} variant="lightPurple">
+                    <Button size="sm" disabled={true} variant="lightPurple">
                       Install
                     </Button>
                   );
@@ -63,7 +63,7 @@ export default function Marketplace({ courses }) {
 
                 if (isConnecting) {
                   return (
-                    <Button disabled={true} variant="lightPurple">
+                    <Button size="sm" disabled={true} variant="lightPurple">
                       <Loader size="sm" />
                     </Button>
                   );
@@ -77,11 +77,11 @@ export default function Marketplace({ courses }) {
                   return (
                     <>
                       <div>
-                        <Button disabled={true} variant="green">
+                        <Button size="sm" disabled={true} variant="green">
                           Owned
                         </Button>
                         {owned.state === "deactivated" && (
-                          <Button disabled={false} variant="purple">
+                          <Button size="sm" disabled={false} variant="purple">
                             Fund to Activate
                           </Button>
                         )}
@@ -93,6 +93,7 @@ export default function Marketplace({ courses }) {
                 return (
                   <Button
                     onClick={() => setSelectedCourse(course)}
+                    size="sm"
                     disabled={!hasConnectedWallet}
                     variant="lightPurple"
                   >
