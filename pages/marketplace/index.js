@@ -70,20 +70,22 @@ export default function Marketplace({ courses }) {
                 }
 
                 if (!ownedCourses.hasInitialResponse) {
-                  return <div style={{ height: 50 }}></div>;
+                  return <div style={{ height: 42 }}></div>;
                 }
 
                 if (owned) {
                   return (
                     <>
-                      <div>
-                        <Button size="sm" disabled={true} variant="green">
-                          Owned
+                      <div className="flex">
+                        <Button size="sm" disabled={false} variant="white">
+                          Yours &#10004;
                         </Button>
                         {owned.state === "deactivated" && (
-                          <Button size="sm" disabled={false} variant="purple">
-                            Fund to Activate
-                          </Button>
+                          <div className="ml-1">
+                            <Button size="sm" disabled={false} variant="purple">
+                              Fund to Activate
+                            </Button>
+                          </div>
                         )}
                       </div>
                     </>
